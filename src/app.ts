@@ -4,8 +4,11 @@ import cors from "cors";
 import express, { Application } from "express";
 import { handleErrors } from "./middlewares/HandleErrors.middleware";
 import { allRoutes } from "./routers";
+import { PrismaClient } from "@prisma/client";
 
 export const app: Application = express();
+
+export const prisma = new PrismaClient();
 
 app.use(express.json());
 
