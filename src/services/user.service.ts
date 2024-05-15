@@ -14,7 +14,17 @@ export const createUserService = async (
   data: TCreateUserRequest
 ): Promise<TUserResponseNoPassword> => {
   data.password = await hash(data.password, 12);
-  const newUser: TUserResponseNoPassword = await prisma.user.create({ data });
+  const newUser: TUserResponseNoPassword = await prisma.user.create({
+    data: {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      birthDate: data.birthDate,
+      sex: data.sex,
+      avatar: data.avatar as string,
+      admin: data.admin,
+    },
+  });
   return userResponseNoPasswordSchema.parse(newUser);
 };
 

@@ -9,7 +9,7 @@ export const userResponseSchema = z.object({
   password: z.string().max(120).min(8),
   birthDate: z.string().max(30).min(1),
   sex: z.enum(SexEnumValues),
-  avatar: z.string().max(200).min(3),
+  avatar: z.string().max(200).optional(),
   admin: z.boolean().default(false),
 });
 
