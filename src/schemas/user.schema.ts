@@ -25,7 +25,7 @@ export const userResponseNoPasswordSchema = userResponseSchema.omit({
   password: true,
 });
 
-export const usersListResponseSchema = userResponseSchema.array();
+export const usersListResponseSchema = userResponseNoPasswordSchema.array();
 
 export const userLoginRequestSchema = userResponseSchema.pick({
   email: true,
