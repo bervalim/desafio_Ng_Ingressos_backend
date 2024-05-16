@@ -37,7 +37,8 @@ export const userLoginService = async (
       id: findUser.id,
       name: findUser.name,
       email: findUser.email,
-      avatar: findUser.avatar,
+      birthDate: findUser.birthDate,
+      sex: findUser.sex,
     },
   };
 

@@ -9,7 +9,6 @@ export const userResponseSchema = z.object({
   password: z.string().max(120).min(8),
   birthDate: z.string().max(30).min(1),
   sex: z.enum(SexEnumValues),
-  avatar: z.string().max(200).optional(),
 });
 
 export const readOneUserResponseSchema = z.object({
@@ -18,7 +17,7 @@ export const readOneUserResponseSchema = z.object({
   email: z.string().email().min(3).max(45),
   birthDate: z.string().max(30).min(1),
   sex: z.enum(SexEnumValues),
-  avatar: z.string().max(200),
+
   posts: z.array(
     z.object({
       id: z.string(),
@@ -51,6 +50,7 @@ export const userLoginResponseSchema = z.object({
     id: true,
     name: true,
     email: true,
-    avatar: true,
+    birthDate: true,
+    sex: true,
   }),
 });

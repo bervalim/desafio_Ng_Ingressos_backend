@@ -20,7 +20,6 @@ model User{
   password String @db.VarChar(120)
   birthDate String @db.VarChar(30)
   sex Sex
-  avatar String @db.VarChar(200)
   posts Post[]
   @@map("users")
 }

@@ -9,7 +9,6 @@ import {
 } from "../controllers/user.controller";
 import { validateBody } from "../middlewares/validateBody.middleware";
 import { createUserRequestSchema } from "../schemas/user.schema";
-import { upload } from "../middlewares/multer.middleware";
 import { verifyUserIdExists } from "../middlewares/verifyUserIdExists.middleware";
 import {
   verifyIfTokenExists,
@@ -20,7 +19,6 @@ export const userRouter: Router = Router();
 
 userRouter.post(
   "/",
-  upload.single("avatar"),
   validateBody(createUserRequestSchema),
   validateUserEmailExists,
   createUserController

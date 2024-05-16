@@ -11,19 +11,11 @@ import {
   usersListResponseSchema,
 } from "../schemas/user.schema";
 import { User } from "@prisma/client";
-import AppError from "../errors/AppError.error";
-import { isValidImageUrl } from "./helpers";
 
 export const createUserService = async (
   data: TCreateUserRequest
 ): Promise<TUserResponseNoPassword> => {
   const hashedPassword = await hash(data.password, 12);
-
-  const { avatar } = data;
-
-  if (avatar && !isValidImageUrl(avatar)) {
-    throw new AppError("Avatar must be a valid image URL");
-  }
 
   const newUser = await prisma.user.create({
     data: {
@@ -32,7 +24,6 @@ export const createUserService = async (
       password: hashedPassword,
       birthDate: data.birthDate,
       sex: data.sex,
-      avatar: avatar as string,
     },
   });
 
