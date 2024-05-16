@@ -1,6 +1,5 @@
 import { z } from "zod";
 import {
-  createUserRequestNoAdminSchema,
   createUserRequestSchema,
   userLoginRequestSchema,
   userLoginResponseSchema,
@@ -9,10 +8,8 @@ import {
 } from "../schemas/user.schema";
 
 export type TCreateUserRequest = z.infer<typeof createUserRequestSchema>;
-export type TCreateUserRequestNoAdmin = z.infer<
-  typeof createUserRequestNoAdminSchema
->;
-export type TUpdateUserRequest = Partial<TCreateUserRequestNoAdmin>;
+
+export type TUpdateUserRequest = Partial<TCreateUserRequest>;
 export type TUserResponseNoPassword = z.infer<
   typeof userResponseNoPasswordSchema
 >;

@@ -21,26 +21,12 @@ export const verifyIfTokenExists = (
   return next();
 };
 
-export const verifyAdmin = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { admin } = res.locals.decodedToken;
-
-  if (!admin) throw new AppError("Insufficient Permissions", 403);
-
-  return next();
-};
-
 export const verifyPermission = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { admin, sub } = res.locals.decodedToken;
-
-  if (admin) return next();
+  const { sub } = res.locals.decodedToken;
 
   const { id } = req.params;
 

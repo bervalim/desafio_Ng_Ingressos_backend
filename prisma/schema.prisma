@@ -21,7 +21,6 @@ model User{
   birthDate String @db.VarChar(30)
   sex Sex
   avatar String @db.VarChar(200)
-  admin Boolean @default(false)
   posts Post[]
   @@map("users")
 }
