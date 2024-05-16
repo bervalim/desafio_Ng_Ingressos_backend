@@ -31,6 +31,7 @@ export const readOnePostResponseSchema = z.object({
 export const createPostRequestSchema = postResponseSchema.omit({
   id: true,
   createdAt: true,
+  user_id: true,
 });
 
 export const updatePostRequestSchema = createPostRequestSchema.partial();
