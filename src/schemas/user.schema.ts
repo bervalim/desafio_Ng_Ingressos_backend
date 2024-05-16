@@ -10,16 +10,29 @@ export const userResponseSchema = z.object({
   birthDate: z.string().max(30).min(1),
   sex: z.enum(SexEnumValues),
   avatar: z.string().max(200).optional(),
-  admin: z.boolean().default(false),
+});
+
+export const readOneUserResponseSchema = z.object({
+  id: z.string(),
+  name: z.string().min(3).max(80),
+  email: z.string().email().min(3).max(45),
+  birthDate: z.string().max(30).min(1),
+  sex: z.enum(SexEnumValues),
+  avatar: z.string().max(200),
+  posts: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string().min(3).max(120),
+      content: z.string().min(3),
+      createdAt: z.date(),
+      user_id: z.string(),
+    })
+  ),
 });
 
 export const createUserRequestSchema = userResponseSchema.omit({ id: true });
 
-export const createUserRequestNoAdminSchema = createUserRequestSchema.omit({
-  admin: true,
-});
-
-export const updateUserRequestSchema = createUserRequestNoAdminSchema.partial();
+export const updateUserRequestSchema = createUserRequestSchema.partial();
 
 export const userResponseNoPasswordSchema = userResponseSchema.omit({
   password: true,

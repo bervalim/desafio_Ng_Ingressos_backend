@@ -26,7 +26,7 @@ export const userLoginService = async (
   if (!comparePasswords) throw new AppError("Invalid Credentials!", 401);
 
   const token = sign(
-    { name: findUser.name, admin: findUser.admin },
+    { name: findUser.name, email: findUser.email },
     process.env.SECRET_KEY!,
     { subject: findUser.id, expiresIn: process.env.EXPIRES_IN! }
   );

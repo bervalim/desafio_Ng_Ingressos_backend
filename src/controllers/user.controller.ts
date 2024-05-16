@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { createUserService, readUsersService } from "../services/user.service";
+import {
+  createUserService,
+  deleteUserService,
+  readOneUserService,
+  readUsersService,
+  updateUserService,
+} from "../services/user.service";
 import {
   TUserResponseNoPassword,
   TUsersListResponse,
@@ -28,16 +34,44 @@ export const createUserController = async (
     birthDate: req.body.birthDate,
     sex: req.body.sex,
     avatar: upload.secure_url,
-    admin: req.body.admin,
   };
-  const newClient: TUserResponseNoPassword = await createUserService(data);
-  return res.status(201).json(newClient);
+  const newUser: TUserResponseNoPassword = await createUserService(data);
+  return res.status(201).json(newUser);
 };
 
 export const readUsersController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const clients: TUsersListResponse = await readUsersService();
-  return res.status(200).json(clients);
+  const users: TUsersListResponse = await readUsersService();
+  return res.status(200).json(users);
+};
+
+export const readOneUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { findUser } = res.locals;
+  console.log(findUser);
+  console.log(findUser.id);
+  const oneUser = await readOneUserService(findUser);
+  return res.status(200).json(oneUser);
+};
+
+export const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { findUser } = res.locals;
+  await deleteUserService(findUser);
+  return res.status(204).json();
+};
+
+export const updateUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { findUser } = res.locals;
+  const updatedUser = await updateUserService(findUser, req.body);
+  return res.status(200).json(updatedUser);
 };
