@@ -34,3 +34,17 @@ export const verifyPermission = (
 
   return next();
 };
+
+export const verifyPostPermission = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { sub } = res.locals.decodedToken;
+
+  const postUserId = res.locals.findPost.user_id;
+
+  if (postUserId !== sub) throw new AppError("Insufficient Permissions", 403);
+
+  return next();
+};
