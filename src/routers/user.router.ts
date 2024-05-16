@@ -8,7 +8,10 @@ import {
   updateUserController,
 } from "../controllers/user.controller";
 import { validateBody } from "../middlewares/validateBody.middleware";
-import { createUserRequestSchema } from "../schemas/user.schema";
+import {
+  createUserRequestSchema,
+  updateUserRequestSchema,
+} from "../schemas/user.schema";
 import { verifyUserIdExists } from "../middlewares/verifyUserIdExists.middleware";
 import {
   verifyIfTokenExists,
@@ -41,6 +44,8 @@ userRouter.delete(
 userRouter.patch(
   "/:id",
   verifyUserIdExists,
+  validateBody(updateUserRequestSchema),
+  validateUserEmailExists,
   verifyIfTokenExists,
   verifyPermission,
   updateUserController
