@@ -1,0 +1,1364 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API Desafio Ng Ingressos",
+    "description": "Esta API REST de uma rede social é responsável por cadastrar usuários que podem fazer muitas postagens",
+    "version": "1.00"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Development env"
+    },
+    {
+      "url": "https://desafio-fullstack-api.onrender.com",
+      "description": "Production env"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "description": "Rota responsável por buscar todos os usuários cadastrados.Apenas usuários logados podem acessar",
+        "tags": ["Rotas sem parâmetros"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      {
+                        "id": "7342952a-b99e-4985-b8dc-67af8375ac7c",
+                        "name": "Bernardo",
+                        "email": "bernardogd3dvalim@femail.comg",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      },
+                      {
+                        "id": "91098682-ce8a-465e-af72-c8e96c8e6741",
+                        "name": "Bernadro",
+                        "email": "bernaudo@email.com",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      },
+                      {
+                        "id": "dac4a378-c53c-4c20-aad7-eacea3b4a8e5",
+                        "name": "Bernardo",
+                        "email": "bernardogdd3dvalim@femail.comg",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      },
+                      {
+                        "id": "60548e2d-4631-4f55-a51f-4ebd00519ae8",
+                        "name": "Bernardo",
+                        "email": "berndardogdd3dvalim@femail.comg",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Rota responsável por cadastrar um novo usuário",
+        "tags": ["Rotas sem parâmetros"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/createClientResponse"
+                },
+                "examples": {
+                  "client": {
+                    "value": {
+                      "id": "8155193c-4e13-437c-b01b-922d9b8b31ee",
+                      "name": "Bernardo",
+                      "password": "12345678",
+                      "email": "berndardogdd3dvalim@femail.comg",
+                      "birthDate": "16/05/1998",
+                      "sex": "Male"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "emailConflictError": {
+                    "value": {
+                      "message": "User Email Already Exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bodyValidationError": {
+                    "value": {
+                      "message": {
+                        "name": ["Required"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "security": [{}]
+      }
+    },
+    "/users/:id": {
+      "get": {
+        "description": "Rota responsável por buscar o usuário informado bem como os seus respectivos posts",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do usuário que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "91098682-ce8a-465e-af72-c8e96c8e6741",
+                      "name": "Bernadro",
+                      "email": "bernaudo@email.com",
+                      "birthDate": "16/05/1998",
+                      "sex": "Male",
+                      "posts": [
+                        {
+                          "id": "605900c4-802b-4eae-8860-da2814737ee9",
+                          "title": "3245657",
+                          "content": "777777777",
+                          "createdAt": "2024-05-17T06:45:45.830Z",
+                          "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                        },
+                        {
+                          "id": "5e4a01eb-ec92-4fa5-b89a-7f1e60b2ec68",
+                          "title": "edeffccccccccccc",
+                          "content": "deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                          "createdAt": "2024-05-17T07:34:02.031Z",
+                          "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                        },
+                        {
+                          "id": "7b65e21f-e9b5-4d46-9302-4d545d426a08",
+                          "title": "dddd",
+                          "content": "dddd",
+                          "createdAt": "2024-05-17T10:12:36.926Z",
+                          "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                        },
+                        {
+                          "id": "ef0e1599-e5f5-4082-a5f6-8a74cb995db9",
+                          "title": "ddddffffffddddddddddd",
+                          "content": "ddddfffffffddddddddd",
+                          "createdAt": "2024-05-17T09:16:24.925Z",
+                          "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "Client not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["read:clients", "admin"]
+          }
+        ]
+      },
+      "patch": {
+        "description": "Rota responsável por atualizar os dados do usuário informado",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do usuário que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateOneClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/createClientResponse"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "id": "91098682-ce8a-465e-af72-c8e96c8e6741",
+                      "name": "Bernadro",
+                      "email": "bernardodgvealim@gmail.com",
+                      "birthDate": "16/05/1998",
+                      "sex": "Male"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "emailConflictError": {
+                    "value": {
+                      "message": "Email Already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["update:users"]
+          }
+        ]
+      },
+      "delete": {
+        "description": "Rota responsável por deletar os dados do usuário informado",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do usuário que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Body content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["delete:clients"]
+          }
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Rota responsável por realizar o login dos usuários",
+        "tags": ["Rotas sem parâmetros"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/clientLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "logged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/clientLoginResponse"
+                },
+                "examples": {
+                  "token": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmVybmFkcm8iLCJlbWFpbCI6ImJlcm5hdWRvQGVtYWlsLmNvbSIsImlhdCI6MTcxNTkyMzczMCwiZXhwIjoxNzE1OTk1NzMwLCJzdWIiOiI5MTA5ODY4Mi1jZThhLTQ2NWUtYWY3Mi1jOGU5NmM4ZTY3NDEifQ.ffLEJ8_pt7BSrzpOl8mZAbhm6-ylB4f-t5ixUk1RCU4",
+                      "user": {
+                        "id": "91098682-ce8a-465e-af72-c8e96c8e6741",
+                        "name": "Bernadro",
+                        "email": "bernaudo@email.com",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "invalidCredentialError": {
+                    "value": {
+                      "message": "Invalid Credentials!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bodyValidationError": {
+                    "value": {
+                      "message": {
+                        "email": ["Required"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/posts": {
+      "get": {
+        "description": "Rota responsável por buscar os posts atrelados aos usuários",
+        "tags": ["Rotas sem parâmetros"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      {
+                        "id": "5e4a01eb-ec92-4fa5-b89a-7f1e60b2ec68",
+                        "title": "edeffccccccccccc",
+                        "content": "deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                        "author": "Bernadro",
+                        "createdAt": "2024-05-17T07:34:02.031Z",
+                        "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                      },
+                      {
+                        "id": "7b65e21f-e9b5-4d46-9302-4d545d426a08",
+                        "title": "dddd",
+                        "content": "dddd",
+                        "author": "Bernadro",
+                        "createdAt": "2024-05-17T10:12:36.926Z",
+                        "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                      },
+                      {
+                        "id": "ef0e1599-e5f5-4082-a5f6-8a74cb995db9",
+                        "title": "ddddffffffddddddddddd",
+                        "content": "ddddfffffffddddddddd",
+                        "author": "Bernadro",
+                        "createdAt": "2024-05-17T09:16:24.925Z",
+                        "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["read:users"]
+          }
+        ]
+      },
+      "post": {
+        "description": "Rota responsável por atrelar um post a um usuário",
+        "tags": ["Rotas sem parâmetros"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createContact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/createContactResponse"
+                },
+                "examples": {
+                  "contact": {
+                    "value": {
+                      "id": "d543f751-3f1f-4017-a200-74e8aa84fa55",
+                      "title": "Primeiro post do Bernardo",
+                      "content": "Segundo Conteúdo",
+                      "author": "Bernardo",
+                      "createdAt": "2024-05-17T10:50:37.652Z",
+                      "user_id": "91098682-ce8a-465e-af72-c8e96c8e6741"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bodyValidationError": {
+                    "value": {
+                      "message": {
+                        "title": ["Required"],
+                        "content": ["Invalid input"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["create:users"]
+          }
+        ]
+      }
+    },
+    "/posts/:id": {
+      "get": {
+        "description": "Rota responsável por buscar o post informado",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do post  que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "1807ccc1-9f59-4bb9-9287-7806054c45dc",
+                      "title": "Primeiro post do Buchecha",
+                      "content": "Segundo Conteúdo",
+                      "author": "Buchecha",
+                      "createdAt": "2024-05-17T02:39:47.904Z",
+                      "user_id": "7342952a-b99e-4985-b8dc-67af8375ac7c",
+                      "user": {
+                        "name": "Bernardo",
+                        "email": "bernardogd3dvalim@femail.comg",
+                        "birthDate": "16/05/1998",
+                        "sex": "Male"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "Post not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["read:users"]
+          }
+        ]
+      },
+      "patch": {
+        "description": "Rota responsável por atualizar os dados do post informado",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do post  que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateOneContact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/updateContactResponse"
+                },
+                "examples": {
+                  "contact": {
+                    "value": {
+                      "id": "23526316-0726-425a-8877-f5edca22b19b",
+                      "title": "titulo atualizado",
+                      "content": "Segundo Conteúdo",
+                      "createdAt": "2024-05-16T06:56:58.690Z",
+                      "user_id": "8610bd55-84e5-4966-b2c4-a0f7621975b5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "Post not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["update:posts"]
+          }
+        ]
+      },
+      "delete": {
+        "description": "Rota responsável por deletar o post de um usuário",
+        "tags": ["Rotas com parâmetros"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Id do post  que se deseja buscar",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Body content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missingTokenError": {
+                    "value": {
+                      "message": "Missing Bearer Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "permissionError": {
+                    "value": {
+                      "message": "Insufficient Permissions"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NotFoundError": {
+                    "value": {
+                      "message": "Post not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": ["delete:contacts", "admin"]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "createClient": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 45
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 45,
+            "maxLength": 120
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["Male", "Female", "Other"],
+            "maxLength": 18
+          }
+        },
+        "required": ["name", "email", "birthDate", "password"]
+      },
+      "createClientResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string"
+          }
+        }
+      },
+      "readOneClient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 45
+          },
+          "admin": {
+            "type": "boolean",
+            "default": false
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 18
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contacts": {
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 80
+                },
+                "email": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "format": "email",
+                      "minLength": 3,
+                      "maxLength": 45
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "email",
+                        "minLength": 3,
+                        "maxLength": 45
+                      }
+                    }
+                  ]
+                },
+                "phone": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 18
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 18
+                      }
+                    }
+                  ]
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "client_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "readAllClients": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "fullName": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 80
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "minLength": 3,
+              "maxLength": 45
+            },
+            "admin": {
+              "type": "boolean",
+              "default": false
+            },
+            "phone": {
+              "type": "string",
+              "maxLength": 18
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "updateOneClient": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 45
+          }
+        }
+      },
+      "clientLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 45
+          },
+          "password": {
+            "type": "string",
+            "minLength": 45,
+            "maxLength": 120
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "clientLoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "minLength": 30
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "birthDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "sex": {
+                "type": "string",
+                "enum": ["Male", "Female", "Other"]
+              }
+            },
+            "required": ["id", "name", "email", "birthDate", "sex"]
+          }
+        },
+        "required": ["token", "user"]
+      },
+      "createContact": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "content"]
+      },
+      "createContactResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "content": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          }
+        }
+      },
+      "readOneContact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "content": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 80
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "minLength": 3,
+                "maxLength": 45
+              },
+              "birthDate": {
+                "type": "boolean",
+                "default": false
+              },
+              "sex": {
+                "type": "string",
+                "maxLength": 18
+              }
+            }
+          }
+        }
+      },
+      "readAllContacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 80
+            },
+            "content": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 80
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "user_id": {
+              "type": "string"
+            },
+            "client": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 80
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "minLength": 3,
+                  "maxLength": 45
+                },
+
+                "birthDate": {
+                  "type": "string",
+                  "maxLength": 18
+                },
+                "sex": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "updateOneContact": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          }
+        }
+      },
+      "updateContactResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80
+          },
+          "content": {
+            "type": "string"
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT": [
+        "read:clients",
+        "update:clients",
+        "delete:clients",
+        "create:contacts",
+        "read:contacts",
+        "delete:contacts",
+        "update:contacts",
+        "admin"
+      ]
+    }
+  ]
+}

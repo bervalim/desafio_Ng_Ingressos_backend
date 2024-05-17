@@ -1,6 +1,8 @@
 import "dotenv/config";
-import "reflect-metadata";
 import "express-async-errors";
+import "reflect-metadata";
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
 import cors from "cors";
 import express, { Application } from "express";
 import { handleErrors } from "./middlewares/HandleErrors.middleware";
@@ -19,6 +21,11 @@ app.use(
   })
 );
 
+app.use(
+  "/api-documentation",
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(swaggerDocument)
+);
 app.use("/", allRoutes);
 
 app.use(handleErrors);
