@@ -32,6 +32,7 @@ export const createPostRequestSchema = postResponseSchema.omit({
   id: true,
   createdAt: true,
   user_id: true,
+  author: true,
 });
 
 export const updatePostRequestSchema = createPostRequestSchema.partial();
