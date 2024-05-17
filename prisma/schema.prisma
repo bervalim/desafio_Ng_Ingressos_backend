@@ -29,6 +29,7 @@ model Post{
   title String @db.VarChar(120)
   content String @db.Text
   createdAt DateTime @default(now())
+  author String @db.VarChar(80)
   user User @relation(fields: [user_id],references: [id],onDelete: Cascade)
   user_id String
   @@map("posts")

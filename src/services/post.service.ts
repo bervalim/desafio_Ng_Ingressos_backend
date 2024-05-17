@@ -23,6 +23,7 @@ export const createPostService = async (
     data: {
       title: data.title,
       content: data.content,
+      author: data.author,
       user: {
         connect: {
           id: id,

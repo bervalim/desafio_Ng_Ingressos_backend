@@ -6,6 +6,7 @@ export const postResponseSchema = z.object({
   id: z.string(),
   title: z.string().min(3).max(120),
   content: z.string().min(3),
+  author: z.string(),
   createdAt: z.date(),
   user_id: z.string(),
 });
@@ -16,6 +17,7 @@ export const readOnePostResponseSchema = z.object({
   id: z.string(),
   title: z.string().min(3).max(120),
   content: z.string().min(3),
+  author: z.string(),
   createdAt: z.date(),
   user_id: z.string(),
   user: z.object({
@@ -23,7 +25,6 @@ export const readOnePostResponseSchema = z.object({
     email: z.string().email().min(3).max(45),
     birthDate: z.string().max(30).min(1),
     sex: z.enum(SexEnumValues),
-    avatar: z.string().max(200).optional(),
   }),
 });
 
